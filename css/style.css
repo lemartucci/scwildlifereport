@@ -18,6 +18,7 @@ nav{
     position: absolute;
     height: 68px;
     width: 100%;
+    margin-top: 0;
  }
   nav ul{
      float: right;
@@ -56,25 +57,25 @@ nav{
 #map {
       position: absolute;
       height:600px;
-      width:1000px;
+      width:70%;
       transform: translate(-50%,-50%);
       margin-top: 25px;
       top: 400px;
-      left: 850px;
+      left: 60%;
       font-family: Times;
       font-size: 14px;
       color: #323232;
       z-index: -1;
-      
+      border: 5px solid #486052;
+      border-radius: 15px;
 }
-
 .reportSubmitDialog {
   position: absolute;
   top: 30%;
   left: 30%;
   width: 300px;
   height: 150px;
-  background-color: white;
+  background-color: grey;
   border-radius: 15px;
   display: none;
   text-align: center;
@@ -171,15 +172,12 @@ nav{
  font-size: 45px;
  font-weight: bold;
  font-family: 'Courier New', Courier, monospace;
-
 }
-
 .buttontitle{
  font-size: 20px;
  font-family: 'Courier New', Courier, monospace;
- color: #000;
+ color: black;
 }
-
 /* report div */
 .reportDiv{
   position: absolute;
@@ -187,32 +185,49 @@ nav{
   float: left;
   width: 270px;
   height: fit-content;
-  color: #323232;
+  color: black;
   margin: 40px 20px;
 }
-
 /* Show report button */
 #makeReportButton {
   border-radius: 5px;
 }
-
+#dataButton {
+  border-radius: 5px;
+}
+#dataLink {
+  color: black;
+}
+#whereClauseSelect {
+  border-radius: 5px;
+  font-weight: bold;
+  margin: 10px 0px;
+}
 /* Report Form */
 .report{
   position: absolute;
   width: 270px;
   height: fit-content;
-  color: #323232;
-  background-color: rgb(205, 199, 199);
+  color: black;
+  background-color: gray;
   margin: 30px 0px;
   border-radius: 5px;
   border: 3px solid black;
   padding: 10px 10px;
+  z-index: 200;
 }
 .report clearfix::after{
   content:"";
   clear: both;
 }
-
+.report button{
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 2px solid #6F4E37;
+  background: darkolivegreen;
+  margin: 20px 20px;
+}
 
 form{
   overflow: hidden;
@@ -222,7 +237,6 @@ form{
   margin-left: 0px;
   z-index: -1;
 }
-
 
 /*.report button{
   display:block;
@@ -244,31 +258,57 @@ form{
   width:50%;
   color: red;
 }*/
+.information {
+  position: absolute;
+  font-family:'Courier New', Courier, monospace;
+  top: 800px;
+  left: 20%;
+  float:center;
+  background-color: rgb(177, 177, 160);
+  height: 265px;
+  width: 60%;
+  padding: 0px;
+  z-index: 100;
+  text-align: center;
+}
+.information p{
+  font-size: 22px;
+  text-align: left;
+}
+.imgWTitle {
+  display: inline-block;
+  margin: 10px 20px;
+}
 
 /* Footer */
 footer{
-    background-color:#3b433e; 
+    background-color:#3b433e;
+    width: 100%;
     position: fixed;
     bottom: 0px;
     height: 32px;
-    width: 100%;
+    left: 0;
+    right: 0;
+    z-index: 300;
 }
 .footer-content{
     font-size: 15px;
     text-align: center;
     font-family: 'Courier New', Courier, monospace;
-    color: white;
+    
+    padding-top: 10px;
 }
-
 /* IFrame for invasive species news */
 .SCEndangeredSpecies {
   position: absolute;
-  top: 1000px;
-  left: 200px;
-  width: 900px;
-  height: 300px;
+  top: 1300px;
+  left: 20%;
+  margin: 50px 0px;
 }
-
+/* Report popup */
+.reportPopup {
+  background-color:white;
+}
 .autocomplete {
   position: relative;
   display: inline-block;
