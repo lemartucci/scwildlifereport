@@ -9,19 +9,22 @@ body {
 }
 .navbar img{
   float: left;
-  width: 90px;
-  height: 90px;
+  left: 10px;
+  top: 4px;
+  width: 86px;
+  height: 80px;
   z-index: 0;
   position:relative;
+  text-align: left;
 }
 
 nav{
     background: #2a221c;
     position: absolute;
-    height: 68px;
+    height: 75px;
     width: 100%;
     margin-top: 0;
-    color: snow;
+    color: lightgray;
  }
   nav ul{
      float: right;
@@ -41,12 +44,12 @@ nav{
      text-transform: uppercase;
      font-family: 'Courier New', Courier, monospace;
   }
-  a:hover{
+  nav ul li a:hover{
      background-color: white;
      border-radius: 2.5px;
      color: black;
   }
-   
+  
   h2{
     font-family: 'Courier New', Courier, monospace;
     color:#000000; 
@@ -202,7 +205,7 @@ nav{
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 .reportDiv button:hover {
-  background-color: lightgrey;
+  background-color: snow;
 }
 
 #whereClauseSelect {
@@ -314,7 +317,7 @@ form{
   font-weight:500;
   color: #2a221c;
 }
-.Legend h2 {
+.Legend h3 {
   text-align: center;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   color: #2a221c;
@@ -334,7 +337,10 @@ form{
 }
 .imgWTitle img {
   border-radius: 5px;
-  border: 1px solid #2a221c;
+  border: 2px solid #2a221c;
+}
+.imgWTitle img:hover {
+  border: 2px solid blue;
 }
 /* Footer */
 footer{
@@ -401,18 +407,28 @@ footer{
   background-color: DodgerBlue !important; 
   color: #ffffff; 
 }
+/*Help HTML page***************/
+.footer-content2{
+  font-size: 15px;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  color:lightgray;
+}
+
 /*About HTML page***************/
 .about{
-  color:black;
-  position:absolute;
-  top: 75px;
-  left: 485px;
+  color:#2a221c;
+  position: absolute;
+  top: 60px;
+  right: 60%;
   text-align: center;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 .about h2{
   color: #3b433e;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  right: 45%;
 }
 .credits{
   color:#000000;
@@ -433,23 +449,15 @@ footer{
     color:lightgray;
 }
 
-
-/*Help HTML Page******************/
-.footer-content2{
-    font-size: 15px;
-    text-align: center;
-    font-family: 'Courier New', Courier, monospace;
-    color: lightgray;
-}
-
 /* Resources HTML Page******************/
 .references{
-  color: #486052;
+  color:#2a221c;
+  top:300px;
 }
 .information {
   position: absolute;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
-  top: 80px;
+  top: 50px;
   left: 20%;
   float:center;
   height: 265px;
@@ -459,11 +467,24 @@ footer{
   text-align: center;
 }
 .information p{
-  font-size: 22px;
   text-align: left;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
+  color:#2a221c;
   
 }
+.information h4{
+  text-align: center;
+  font-size: 26px;
+  color:#2a221c;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  margin-top: 40px;
+  margin-bottom: 0px;
+}
+.information h5{
+  color:#2a221c;
+
+}
+
 .title{
   position: absolute;
   top: 350px;
@@ -471,12 +492,13 @@ footer{
   color:#2a221c;
 }
 .title h6{
-  top: 650px;
+  top: 850px;
+  position: absolute;
 }
 
 .footer-content3{
     font-size: 15px;
     text-align: center;
     font-family: 'Courier New', Courier, monospace;
-    color: white;
+    color: lightgrey;
 }
