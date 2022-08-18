@@ -10,9 +10,9 @@ body {
 .navbar img{
   float: left;
   left: 10px;
-  top: 4px;
-  width: 86px;
-  height: 80px;
+  top: 0px;
+  width: 75px;
+  height: 75px;
   z-index: 0;
   position:relative;
   text-align: left;
@@ -66,7 +66,7 @@ nav{
       width:63%;
       transform: translate(-50%,-50%);
       margin-top: 20px;
-      top: 414px;
+      top: 420px;
       left: 50%;
       font-family: Times;
       font-size: 14px;
@@ -184,11 +184,11 @@ nav{
 /* report div */
 .reportDiv{
   position: absolute;
-  top: 50px;
+  top: 60px;
   float: left;
   width: 270px;
   height: fit-content;
-  color: black;
+  color: #2a221c;
   margin: 40px 20px;
 }
 /* Show report button */
@@ -231,11 +231,11 @@ nav{
   margin-left: 100px;
   width: 290px;
   height: fit-content;
-  color: black;
-  background-color: grey;
+  color: #2a221c;
+  background-color: #DDD6D3;
   margin: 30px 0px;
   border-radius: 5px;
-  border: 3px solid black;
+  border: 3px solid #2a221c;
   padding: 10px 10px;
   z-index: 200;
   border-radius: 5px;
@@ -253,6 +253,7 @@ nav{
   border: 2px solid black;
   background: lightgrey;
   margin: 20px 15px;
+  color:#2a221c;
 }
 
 form{
@@ -294,6 +295,7 @@ form{
   border-radius: 5px;
   padding: 10px 10px;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 12px;
   
 }
 .rightSideInfo {
@@ -301,7 +303,7 @@ form{
   width: 20%;
   position: absolute;
   right: 0%;
-  top: 80px;
+  top: 90px;
   text-align: center;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   color: #2a221c;
@@ -338,9 +340,10 @@ form{
 .imgWTitle img {
   border-radius: 5px;
   border: 2px solid #2a221c;
+  margin-top: 0px;
 }
 .imgWTitle img:hover {
-  border: 2px solid blue;
+  border: 4px solid #102F25;
 }
 /* Footer */
 footer{
@@ -369,6 +372,13 @@ footer{
   top: 1300px;
   left: 20%;
   margin: 50px 0px;
+}
+.helpInfo {
+  text-align: center;
+  width: 60%;
+  left: 20%;
+  position: relative;
+  top: 150px;
 }
 /* Report popup */
 .reportPopup {
@@ -419,7 +429,9 @@ footer{
 .about{
   color:#2a221c;
   position: absolute;
-  top: 60px;
+  width: 60%;
+  left: 20%;
+  top: 120px;
   right: 60%;
   text-align: center;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
@@ -433,8 +445,9 @@ footer{
 .credits{
   color:#000000;
   position: absolute;
-  left: 450px;
-  top: 200px;
+  width: 60%;
+  left: 20%;
+  top: 350px;
   text-align: center;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
 }

@@ -45,7 +45,7 @@
 <!-- Navigation Bar -->
   <nav>
     <div class="navbar">
-      <img src ="img/logo.svg" alt="nature icon"  width=15px height=15px/>
+      <img src ="img/logo.svg" alt="nature icon"  width=45px height=45px/>
       <label class="logo">South Carolina Wildlife Report</label>
     
     <ul>
@@ -55,23 +55,6 @@
     </ul>
     </div>
     </nav>
-<!-- Pop up
-<div class="popup">
-  <button id="close">&times;</button>
-  <div class="infotitle">South Carolina Wildlife Report</div>
-  <p>Welcome! This citizen science web tool is designed to enable landowners in South Carolina to report sightings of endangered or invasive species on their property with the purpose of providing valuable data to environmental agencies about the presence and spread of these species.
-    <br>
-    <br>
-    With this tool, users may pan and zoom on the map of South Carolina, click on points that are present on the map to retrieve sighting information, create reports of their own with the option of uploading a photo, and download report data through ArcGIS Online. 
-    <br>
-    <br>
-    Resources regarding species identification, management, and prevention are located under the “Resources” tab and are listed at the bottom of this web page. For additional help in using this tool, navigate to the “Help” tab; to report an issue use the “Report an Issue” link at the bottom of the web page.
-    <br>
-    <br>
-    <b>NOTE:</b> Your email address will not be made public and will only be used to email you a copy of the report you generated. 
-  </p>
-</div>
--->
 
 <!-- Report Form -->
 <div class="reportDiv" id ="reportDiv">
@@ -132,12 +115,8 @@
         <label for="upload"><b>Upload Photo</b></label>
         <input type="file" accept= ".jpeg,.jpg,.JPEG,.JPG,.png,.PNG" name="" id="upload"><br>
         <label><input id="nophotoCheckbox" type="checkbox" name="no photo" style="margin-bottom:15px"> I don't have a photo</label>
-        <br>
       </span>
       <span>
-        <label for="email"><b>Email</b></label>
-        <input type="text" name="Email" id="Email" placeholder = "Enter your email.." required>
-        <br>
       </span style="text-align:center;">
         <button type="button" class="Cancelbtn">Cancel</button>
         <button type="button" class="Submit">Submit</button>
@@ -146,6 +125,7 @@
 
   <div class ="leftSideInfo">
     <span>
+      <p><b>Welcome!</b></p><br>
       <b>Endangered:</b>
       <b>USDA definition of Invasive Species:</b>
             <b>1)</b> non-native (or alien) to the ecosystem under consideration and,
@@ -181,13 +161,13 @@
     <span><h6><b>Click Below Images to Learn More!</b></h6></span>
   </div>
   <div class="imgWTitle">
-    <span><h5><b>Invasive Species</b></h5></span><br>
+    <span><h5><b>Invasive Species</b></h5></span>
     <a href="https://www.invasivespeciesinfo.gov/us/south-carolina" target="_blank">
       <img src ="img/Tegu.jpg" alt="Tegu Lizard image"  width=190px/>
     </a>
   </div>
   <div class="imgWTitle">
-    <span><h5><b>Endangered Species</b></h5></span><br>
+    <span><h5><b>Endangered Species</b></h5></span>
     <a href="https://www.scwf.org/endangered-species" target="_blank">
       <img src ="img/turtle.jpg" alt="tortoise image"  width=190px height=130px/>
     </a>

@@ -61,23 +61,49 @@ const basemapLayers = {
 
 L.control.layers(basemapLayers, null, { collapsed: false }).addTo(map);
 
+// define icons for display of each report type
 let AnimalIcon =  L.icon({
     iconUrl: "../../img/print.svg",
     iconSize: [48, 48],
+    name: "animal"
   });
 let PlantIcon =  L.icon({
     iconUrl: "../../img/flower2.svg",
     iconSize: [48, 48],
+    name: "plant"
   });
 let InsectIcon =  L.icon({
     iconUrl: "../../img/butterfly.svg",
     iconSize: [48, 48],
+    name: "insect"
   });
   let TestIcon =  L.icon({
     iconUrl: "../../img/logo.svg",
-    iconSize: [72, 72],
+    iconSize: [48, 48],
+    name: "default"
   });
-
+  
+// make a larger icon for it to switch to on mouseover
+  let AnimalIconLarge =  L.icon({
+    iconUrl: "../../img/print.svg",
+    iconSize: [72, 72],
+    name: "animal"
+  });
+let PlantIconLarge =  L.icon({
+    iconUrl: "../../img/flower2.svg",
+    iconSize: [72, 72],
+    name: "plant"
+  });
+let InsectIconLarge =  L.icon({
+    iconUrl: "../../img/butterfly.svg",
+    iconSize: [72, 72],
+    name: "insect"
+  });
+  let TestIconLarge =  L.icon({
+    iconUrl: "../../img/logo.svg",
+    iconSize: [72, 72],
+    name: "default"
+  });
 
   var allMarkers = new Array();
 
@@ -146,15 +172,46 @@ var reports = L.esri
           })
         }
         allMarkers.push(newMarker);
-        newMarker.bindPopup(L.Util.template(
-            "<div class='reportPopup'><p style='text-align:center'><strong>Species Report </strong></p> <strong> Type: </strong> {Type} <br>" +
-            "<strong>Endangered:</strong> {Endangered} <br><strong> Invasive: </strong>{Invasive} <br>"+
-            "<strong>Date:</strong> {DateString} <br> <strong>Species: </strong>{Species} <br> <strong>Notes: </strong>{Notes} <br>"+
-            "<strong>Photo:</strong> <img src=https://firebasestorage.googleapis.com/v0/b/scwildlifereport.appspot.com/o/report_uploads%2F{Photo}?alt=media style='width:90px;height:85px'/> <br>"+
-            "<strong>Email:</strong> {Email}</div>",
-            feat.properties
-          )
-        );
+        if (feat.properties.Photo != "") {
+          newMarker.bindPopup(L.Util.template(
+              "<div class='reportPopup'><p style='text-align:center'><strong>Species Report </strong></p> <strong> Type: </strong> {Type} <br>" +
+              "<strong>Endangered:</strong> {Endangered} <br><strong> Invasive: </strong>{Invasive} <br>"+
+              "<strong>Date:</strong> {DateString} <br> <strong>Species: </strong>{Species} <br> <strong>Notes: </strong>{Notes} <br>"+
+              "<strong>Photo:</strong> <img src=https://firebasestorage.googleapis.com/v0/b/scwildlifereport.appspot.com/o/report_uploads%2F{Photo}?alt=media style='width:90px;height:85px'/> <br>",
+              feat.properties
+            ));
+          } else {
+            newMarker.bindPopup(L.Util.template(
+              "<div class='reportPopup'><p style='text-align:center'><strong>Species Report </strong></p> <strong> Type: </strong> {Type} <br>" +
+              "<strong>Endangered:</strong> {Endangered} <br><strong> Invasive: </strong>{Invasive} <br>"+
+              "<strong>Date:</strong> {DateString} <br> <strong>Species: </strong>{Species} <br> <strong>Notes: </strong>{Notes} <br>"+
+              "<br>",
+              feat.properties
+            ));
+          }
+
+        newMarker.on('mouseover', function (e) {
+          if (newMarker.getIcon().options.name == "plant") {
+            newMarker.setIcon(PlantIconLarge);
+          } else if (newMarker.getIcon().options.name == "insect") {
+            newMarker.setIcon(InsectIconLarge);
+          } else if (newMarker.getIcon().options.name == "animal") {
+            newMarker.setIcon(AnimalIconLarge);
+          } else {
+            newMarker.setIcon(TestIconLarge);
+          }
+        });
+        newMarker.on('mouseout', function(e){
+          if (newMarker.getIcon().options.name == "plant") {
+            newMarker.setIcon(PlantIcon);
+          } else if (newMarker.getIcon().options.name == "insect") {
+            newMarker.setIcon(InsectIcon);
+          } else if (newMarker.getIcon().options.name == "animal") {
+            newMarker.setIcon(AnimalIcon);
+          } else {
+            newMarker.setIcon(TestIcon);
+          }
+        })
         return newMarker.addTo(map);
       })
     });
@@ -276,8 +333,7 @@ const searchControl = L.esri.Geocoding.geosearch({
             feat.properties.Species = document.getElementById("species").value;
             feat.properties.Notes = document.getElementById("Notes").value;
             feat.properties.Photo = photoName;
-            feat.properties.Email = document.getElementById("Email").value;
-            
+
             reports.addFeature(feat, function (err, response) {
               if (err) {
                 console.log("Error!");
@@ -292,6 +348,8 @@ const searchControl = L.esri.Geocoding.geosearch({
                 if (file) {
                   imageSubmit(photoName);
                 }
+                // run queryReports again to re-load map
+                runQueryReports();
 
               }
               console.log(response);
