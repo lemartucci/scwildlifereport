@@ -8,13 +8,6 @@ minZoom: 2
 // This will get set to a matched address and submitted with the report
 var locationDescription = "None";
 
-//Adding South Carolina State Boundary to the basemap
-// create a feature layer and add it to the map
-//var sc = L.esri.featureLayer({
-//  url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Boundaries_2018/FeatureServer/0"
-//}).addTo(map);
-
-
 // Firebase initialization
 
 // Import the functions you need from the SDKs you need
@@ -69,8 +62,8 @@ const basemapLayers = {
 L.control.layers(basemapLayers, null, { collapsed: false }).addTo(map);
 
 let AnimalIcon =  L.icon({
-    iconUrl: "../../img/bunny.svg",
-    iconSize: [72, 72],
+    iconUrl: "../../img/print.svg",
+    iconSize: [48, 48],
   });
 let PlantIcon =  L.icon({
     iconUrl: "../../img/flower2.svg",
@@ -80,6 +73,11 @@ let InsectIcon =  L.icon({
     iconUrl: "../../img/butterfly.svg",
     iconSize: [48, 48],
   });
+  let TestIcon =  L.icon({
+    iconUrl: "../../img/logo.svg",
+    iconSize: [72, 72],
+  });
+
 
   var allMarkers = new Array();
 
@@ -112,9 +110,57 @@ var reports = L.esri
           }).addTo(map);
         }
       }
-    })
-  .addTo(map);
+    });
 
+  // use querying to add to map instead of just directly adding the reports layer - this allows for better control of icons
+  var queryReports = L.esri.query({
+    url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/SC_Reports_GEOJSON/FeatureServer/0"
+  });
+  
+  queryReports.where("1=1");
+
+  function runQueryReports() {  
+    queryReports.run(function (error, featureCollection, response) {
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      featureCollection.features.forEach((feat) => {
+        var newMarker;
+        if (feat.properties.Type == "Animal") {
+          newMarker = L.marker([feat.geometry.coordinates[1],feat.geometry.coordinates[0]], {
+            icon: AnimalIcon
+          })
+        } else if (feat.properties.Type == "Insect") {
+          newMarker = L.marker([feat.geometry.coordinates[1],feat.geometry.coordinates[0]], {
+            icon: InsectIcon
+          })
+        } else if (feat.properties.Type == "Plant") {
+          newMarker = L.marker([feat.geometry.coordinates[1],feat.geometry.coordinates[0]], {
+            icon: PlantIcon
+          })
+        } else {
+          newMarker = L.marker([feat.geometry.coordinates[1],feat.geometry.coordinates[0]], {
+            icon: PlantIcon
+          })
+        }
+        allMarkers.push(newMarker);
+        newMarker.bindPopup(L.Util.template(
+            "<div class='reportPopup'><p style='text-align:center'><strong>Species Report </strong></p> <strong> Type: </strong> {Type} <br>" +
+            "<strong>Endangered:</strong> {Endangered} <br><strong> Invasive: </strong>{Invasive} <br>"+
+            "<strong>Date:</strong> {DateString} <br> <strong>Species: </strong>{Species} <br> <strong>Notes: </strong>{Notes} <br>"+
+            "<strong>Photo:</strong> <img src=https://firebasestorage.googleapis.com/v0/b/scwildlifereport.appspot.com/o/report_uploads%2F{Photo}?alt=media style='width:90px;height:85px'/> <br>"+
+            "<strong>Email:</strong> {Email}</div>",
+            feat.properties
+          )
+        );
+        return newMarker.addTo(map);
+      })
+    });
+  };
+
+  runQueryReports();
 
   const select = document.getElementById("whereClauseSelect");
   select.addEventListener("change", () => {
@@ -122,7 +168,10 @@ var reports = L.esri
       allMarkers.forEach((marker) => {
         map.removeLayer(marker);
       });
-      reports.setWhere(select.value);
+
+      queryReports.where(select.value);
+      runQueryReports();
+
     }
   });
 
@@ -195,54 +244,68 @@ const searchControl = L.esri.Geocoding.geosearch({
   });
 
   function postReportFunction() {
+
     if (feat != null) {
       if (locationDescription.includes("South Carolina") || locationDescription.includes("SC,")) {
-        let file = document.getElementById("upload").files[0];
-        
-        console.log("posting report!");
-        console.log(feat);
-        feat.properties.Type = document.getElementById("reportType").value;
-        if ( document.getElementById("endangeredCheckbox").checked) {
-          feat.properties.Endangered = "Yes";
-        } else {
-          feat.properties.Endangered = "No";
-        }
-        if ( document.getElementById("invasiveCheckbox").checked) {
-          feat.properties.Invasive = "Yes";
-        } else {
-          feat.properties.Invasive = "No";
-        }
-
-        let fileExtension = file.name.split(".").pop();
-        let randStr = (Math.random() + 1).toString(36).substring(7);
-        let photoName = randStr+"."+fileExtension;
-
-        feat.properties.Date = (new Date(document.getElementById("Date").value)).toISOString().slice(0,10);
-        feat.properties.LocationDescription = locationDescription;
-        feat.properties.Species = document.getElementById("species").value;
-        feat.properties.Notes = document.getElementById("Notes").value;
-        feat.properties.Photo = photoName;
-        feat.properties.Email = document.getElementById("Email").value;
-        
-        reports.addFeature(feat, function (err, response) {
-          if (err) {
-            console.log("Error!");
-            console.log(err);
-            document.querySelector(".reportSubmitDialog").style.display = "block";
-            document.querySelector("#reportSubmitResponseMsg").innerHTML = "Error submitting report!<br>Please check all the fields.";
-            return;
-          } else {
-            document.querySelector(".reportSubmitDialog").style.display = "block";
-            document.querySelector("#reportSubmitResponseMsg").innerHTML = "Report Successfully Submitted!";
-            document.querySelector(".report").style.display = "none";
-            if (file) {
-              imageSubmit(photoName);
+        let Species = document.getElementById("species").value;
+        if (Species != "") {
+          let submitDate = document.getElementById("Date").value;
+          if (submitDate != "") {
+            let file = document.getElementById("upload").files[0];
+            
+            //console.log("posting report!");
+            //console.log(feat);
+            feat.properties.Type = document.getElementById("reportType").value;
+            if ( document.getElementById("endangeredCheckbox").checked) {
+              feat.properties.Endangered = "Yes";
+            } else {
+              feat.properties.Endangered = "No";
+            }
+            if ( document.getElementById("invasiveCheckbox").checked) {
+              feat.properties.Invasive = "Yes";
+            } else {
+              feat.properties.Invasive = "No";
             }
 
-          }
-          console.log(response);
-        })
+            let fileExtension = file.name.split(".").pop();
+            let randStr = (Math.random() + 1).toString(36).substring(7);
+            let photoName = randStr+"."+fileExtension;
 
+            feat.properties.DateString = (new Date(document.getElementById("Date").value)).toDateString().slice(0,15);
+            feat.properties.LocationDescription = locationDescription;
+            feat.properties.Species = document.getElementById("species").value;
+            feat.properties.Notes = document.getElementById("Notes").value;
+            feat.properties.Photo = photoName;
+            feat.properties.Email = document.getElementById("Email").value;
+            
+            reports.addFeature(feat, function (err, response) {
+              if (err) {
+                console.log("Error!");
+                console.log(err);
+                document.querySelector(".reportSubmitDialog").style.display = "block";
+                document.querySelector("#reportSubmitResponseMsg").innerHTML = "Error submitting report!<br>Please check all the fields.";
+                return;
+              } else {
+                document.querySelector(".reportSubmitDialog").style.display = "block";
+                document.querySelector("#reportSubmitResponseMsg").innerHTML = "Report Successfully Submitted!";
+                document.querySelector(".report").style.display = "none";
+                if (file) {
+                  imageSubmit(photoName);
+                }
+
+              }
+              console.log(response);
+            })
+          } else {
+            // date has not been added
+            document.querySelector(".reportSubmitDialog").style.display = "block";
+            document.querySelector("#reportSubmitResponseMsg").innerHTML = "Please submt a date the report";      
+          }
+        } else {
+          // species has not been added
+          document.querySelector(".reportSubmitDialog").style.display = "block";
+          document.querySelector("#reportSubmitResponseMsg").innerHTML = "Please submt a species name with the report";      
+        }
       } else {
         // location with "South Carolina" or "SC," has not been selected
         document.querySelector(".reportSubmitDialog").style.display = "block";
@@ -255,17 +318,6 @@ const searchControl = L.esri.Geocoding.geosearch({
     }
   }
 
-// When point is clicked, this sets the popup format
-  reports.bindPopup(function (layer) {
-    return L.Util.template(
-      "<div class='reportPopup'><p style='text-align:center'><strong>Species Report </strong></p> <strong> Type: </strong> {Type} <br>" +
-      "<strong>Endangered:</strong> {Endangered} <br><strong> Invasive: </strong>{Invasive} <br>"+
-      "<strong>Date:</strong> {Date} <br> <strong>Species: </strong>{Species} <br> <strong>Notes: </strong>{Notes} <br>"+
-      "<strong>Photo:</strong> <img src=https://firebasestorage.googleapis.com/v0/b/scwildlifereport.appspot.com/o/report_uploads%2F{Photo}?alt=media style='width:90px;height:85px'/> <br>"+
-      "<strong>Email:</strong> {Email}</div>",
-      layer.feature.properties
-    );
-  });
 
   //UNCOMMENT THIS CODE FOR FINAL
 //Popup will display when user loads the webpage
@@ -400,33 +452,64 @@ function autocomplete(inp, arr) {
   });
 }
 
-/*An array containing all the country names in the world:*/
-var species_list = ["American Swallow-tailed Kite","Bachman's Warbler",
+/*An array containing all the species names for autofill*/
+var species_list = 
+//Endangered Animals:
+["American Swallow-tailed Kite","Bachman's Warbler",
 "Carolina Heelsplitter", "Carolina Pygmy Sunfish", 
 "Eastern Cougar", "Flatwoods Salamander", "Gopher Frog", "Gopher Tortoise", 
-"Indiana Bat", "North Atlantic Right Whale", 
+"Indiana Bat", 
 "Rafinesque\'s Big-eared Bat", "Red-cockaded Woodpecker", "Shortnose Sturgeon", 
-"Webster\'s Salamander", "West-Indian Manatee", 
-"American Chaffseed", "Black-spored Quillwort", "Bunched Arrowhead", "Canby's Dropwort", 
-"Harperella", "Michaux's Sumac", "Mountain Sweet Pitcher Plant", 
-"Persistent Trillium", "Pondberry", "Reflexed Blue-eyed Grass","Relict Trillium", 
-"Rocky Gnome Lichen", "Rough-leaved Loosestrife", "Schweinitz's Sunflower", 
-"Smooth Coneflower", "Chinese Tallow Tree", "Chinaberry", "Thorny Olive", "Chinese Privet", 
-"Multiflora Rose","Beach Vitex", "Japanese Climbing Fern", 
-"Kudzu", "Wisteria", "English Ivy", "Cogongrass", "Japanese Stiltgrass", "Chinese Silvergrass", 
-"Common Reed", "Sericea Lespedeza", "Appalachian Snaketail", "Calvert's Emerald", 
-"Diminutive Clubtail", "Towne's Clubtail", "Appalachian Cottontail", 
+"Webster\'s Salamander", "West-Indian Manatee",
+
+//Endangered Plants:
+"American Chaffseed", "Black-spored Quillwort", "Bunched Arrowhead", "Canby\'s Dropwort", 
+"Harperella", "Michaux\'s Sumac", "Mountain Sweet Pitcher Plant", 
+"Persistent Trillium", "Pondberry", "Reflexed Blue-eyed Grass","Relic Trillium", 
+"Rocky Gnome Lichen", "Rough-leaved Loosestrife", "Schweinitz\'s Sunflower", 
+"Smooth Coneflower", "Golden Sedge", "Rock Gnome Lichen","White Irisette ",
+
+//Endangered Insects/Bugs:
+"Appalachian Snaketail", "Calvert's Emerald", 
+"Diminutive Clubtail", "Towne's Clubtail",
+"Rusty Patched Bumble Bee",
+
+//determine:
 "Bicknell's Thrush", "Black Rail", "Bluebarred Pygmy Sunfish", "Bog Turtle", 
 "Broad River Spiny Crayfish", "Brown Pelican", "Buff-breasted Sandpiper", "Bunched Arrowhead", 
 "Calico Grouper", "Calvert's Emerald", "Canby's Dropwort", "Carribean Reef Shark", "Devil Fish",
 "Donkey Fish", "Edisto Crayfish", "Distocambarus youngineri","Frosted Flatwoods Salamander", 
 "Golden-Winged Warbler", "Green Salamander", "Gulf Sturgeon", "Hammerhead Shark", "Henslow's Sparrow",
 "Kirtland's Warbler", "Longleaf Pine", "Night Shark", "Painted Bunting", "Persistent Trillium",
-"Pine Barrens Treefrog", "Poey's Grouper", "Quillwort", "Red Porgy", "Red Wolf", "Red-headed Woodpecker", "Relict Trillium", "Roseate Tern",
+"Pine Barrens Treefrog", "Poey's Grouper", "Quillwort", "Red Porgy", "Red-headed Woodpecker", "Relict Trillium", "Roseate Tern",
 "Rusty Blackbird", "Saltmarsh Sharp-tailed Sparrow", "Smalltooth Sawfish", "Southern Hog-nosed Snake",
-"Spotted Eagle Ray", "Spotted Turtle", "Venus Fly Trap", "West Indian Manatee", "Whooping Crane", "Wood Stork",
-"Yellow Lampmussel", "Chinese Tallow Tree", "Chinese Parasol Tree", "White Mulberry", "White Poplar", "Chinese Elm",
-"Chinese Yam", "Chinese Euonymus", "Common Periwinkle", "Bigleaf Periwinkle", "Chinese Wisteria", "Cherokee Rose", ];
+"Spotted Eagle Ray", "Spotted Turtle", "Venus Fly Trap", "Whooping Crane", "Wood Stork",
+"Yellow Lampmussel",
+
+//Invasive Animals:
+"Wild Boar/Swine/Pig","European Starling","House Sparrow","Rock Pigeon","House Finch", 
+"Cattle Egret", "Eurasian Collared Dove","Ring Necked Pheasant","Tegu Lizard",
+
+
+//Invasive Plants: 
+"Bradford Pear/Callery Pear","Tree of Heaven", "Cogongrass","Fig Buttercup","Chinaberry", "Princess Tree", "Chinese Tallow Tree", "Mimosa/Silktree", 
+"Paper Mulberry", "Chinese Parasol Tree", "White Mulberry", "White Poplar", "Camphortree", "Russian-Olive", "Sawtooth Oak", "Chinese Elm",
+"Scotch Broom/English Broom", "Thorny-Olive", "Autumn-Olive", "Shrub Lespedeza", "Chinese Privet", "Japansese Knotweed", "Trifoliate Orange/Hardy Orange",
+"Japanese Privet", "Nandina/Sacred Bamboo", "Multiflora Rose", "Glossy, Tall Glossy Privet", "European Privet", "Jasmine", 
+"Macartney Rose", "Jerusalem Cherry", "Meadowsweet", "Saltcedar", "Roundleaf Chastetree", "Japanese Barberry", "Winged Euonymus", "Amur Privet",
+"Amur Honeysuckle", "Leatherleaf Mahonia", "Wineberry/Wine Raspberry", "English Ivy", "Japanese Climbing Fern", "Japanese Honeysuckle",
+"Kudzu", "Cherokee Rose", "Chinese Wisteria", "Bigleaf Periwinkle", "Common Periwinkle", "Chinese Yam", "Asian/Oriental Bittersweet",
+"Sweet Autumn Virgin\'s Bower", "Purple Crownvetch", "Asian/Japanese Wisteria", "Fiveleaf Akebia/Chocolate Vine", "Porcelain Berry",
+"Bushkiller", "Japanese Dodder", "Climbing Euonymus", "Japanese Hop", "Old World Climbing Fern", "Nepalese Browntop", "Japanese Stilt Grass",
+"Chinese Silvergrass", "Common Reed", "Itchgrass", "Johnson Grass", "Weeping Love Grass", "Tall Fescue", "Dallis/Dallas Grass", "Bahia Grass",
+"Vasey\'s Grass", "Torpedo Grass", "Golden Bamboo/Fishpole Bamboo", "Giant Reed", "Pampas Grass", "Deep-rooted Sedge", "Sericea/Chinese Bush Clover",
+"Marsh Dewflower", "Tropical Soda Apple", "Nodding Thistle", "Bull Thistle", "Showy Rattlebox", "Queen Anne\'s Lace/Wild Carrot", "Scarlet Wisteria Tree",
+"Garlic Mustard", "Spotted Knapweed", "Field Thistle", "Coco Yam/Taro", "Dayflower", "Monkey Grass", "Purple Loosestrife", "Witchweed", 
+"Swordfern", "Crested Floating Heart","Dutch Elm Disease", "Chestnut Blight", "Beach Vitex","Hydrilla","Empress Tree","Giant Hogweed",
+
+//Invasive Insects/Bugs:
+"Asian Longhorned Tick", "Asian Longhorned Beetle","Emerald Ash Borer", "Hemlock Woolly Adelgid", "Asian Ambrosia Beetle",
+"Brown Marmorated Stink Bug","Box Tree Moth", "Fire Ant", "Gypsy Moth", "Spotted Lanternfly",];
 
 /*initiate the autocomplete function on the "myInput" element, and pass along the species_list array as possible autocomplete values:*/
 autocomplete(document.getElementById("species"), species_list);

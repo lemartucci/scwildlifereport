@@ -1,10 +1,10 @@
 html {
-    background-color: rgb(177, 177, 160);
+    background-color:#b09f90;
 }
 body {
     margin: 0;
     padding: 0;
-    background-color: rgb(177, 177, 160);
+    background-color:#b09f90;
     height:100%;
 }
 .navbar img{
@@ -12,13 +12,16 @@ body {
   width: 90px;
   height: 90px;
   z-index: 0;
+  position:relative;
 }
+
 nav{
-    background: #3b433e;
+    background: #2a221c;
     position: absolute;
     height: 68px;
     width: 100%;
     margin-top: 0;
+    color: snow;
  }
   nav ul{
      float: right;
@@ -30,7 +33,7 @@ nav{
      margin: 5px;
   }
   nav ul li a{
-     color: white;
+     color: snow;
      text-decoration: none;
      font-size: 18px;
      padding: 6px 13px;
@@ -56,18 +59,23 @@ nav{
 
 #map {
       position: absolute;
-      height:600px;
-      width:70%;
+      height:680px;
+      width:63%;
       transform: translate(-50%,-50%);
-      margin-top: 25px;
-      top: 400px;
-      left: 60%;
+      margin-top: 20px;
+      top: 414px;
+      left: 50%;
       font-family: Times;
       font-size: 14px;
       color: #323232;
       z-index: -1;
-      border: 5px solid #486052;
+      border: 4px solid #2a221c;
       border-radius: 15px;
+}
+.reportDiv{
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  border-radius: 5px;
+
 }
 .reportSubmitDialog {
   position: absolute;
@@ -84,11 +92,11 @@ nav{
   display:block;
   margin:  0 0 20px auto;
   background-color: transparent;
-  font-size: 20px;
+  font-size: 16px;
   color: white;
-  background: #486052;
+  background: #7f886e;
   border-radius: 100%;
-  width: 30px;
+  width: 32px;
   height: 30px;
   border: none;
   outline: none;
@@ -98,24 +106,15 @@ nav{
   font-size: 18px;
   font-weight: bold;
  }
-
-/*Added from ESRI Leaflet page for styling the geocoding box
-.geocoder-control-suggestions .geocoder-control-suggestion {
-  overflow-wrap: break-word;
-  word-break: break-all;
-  overflow: visible;
-  white-space: break-spaces;
-}*/
 .logo{
-    color: white;
-    font-size: 35px;
+    color: lightgrey;
+    font-size: 30px;
     line-height: 80px;
     padding-left: 20px;
     font-family:'Courier New', Courier, monospace;
     border-radius: 3px;
 }
 .logo a{
-    color: white;
     font-size: 35px;
     line-height: 40px;
     padding: 0 100px;
@@ -123,6 +122,7 @@ nav{
     font-family:'Courier New', Courier, monospace;
     border-radius: 3px;
     text-decoration: none;
+    color: lightgrey;
 }
 
 /*webpage popup*/
@@ -181,7 +181,7 @@ nav{
 /* report div */
 .reportDiv{
   position: absolute;
-  top: 100px;
+  top: 50px;
   float: left;
   width: 270px;
   height: fit-content;
@@ -189,53 +189,78 @@ nav{
   margin: 40px 20px;
 }
 /* Show report button */
-#makeReportButton {
+.reportDiv button {
+  text-align: center;
   border-radius: 5px;
+  padding: 4px;
+  margin-bottom: 7px;
+  width: 220px;
+  height: 50px;
+  background-color: #3b433e;
+  border:  2px solid#2a221c;
+  color: lightgrey;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
-#dataButton {
-  border-radius: 5px;
+.reportDiv button:hover {
+  background-color: lightgrey;
 }
-#dataLink {
-  color: black;
-}
+
 #whereClauseSelect {
-  border-radius: 5px;
+  padding: 4px;
+  text-align: center;
   font-weight: bold;
-  margin: 10px 0px;
+  margin-bottom: 7px;
+  border-radius: 5px;
+  width: 220px;
+  height: 50px;
+  background-color:  #3b433e;
+  border:  2px solid #2a221c;
+  color: lightgrey;
+  cursor: pointer;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
+
 /* Report Form */
 .report{
   position: absolute;
-  width: 270px;
+  top: 40px;
+  margin-left: 100px;
+  width: 290px;
   height: fit-content;
   color: black;
-  background-color: gray;
+  background-color: grey;
   margin: 30px 0px;
   border-radius: 5px;
   border: 3px solid black;
   padding: 10px 10px;
   z-index: 200;
+  border-radius: 5px;
 }
 .report clearfix::after{
   content:"";
   clear: both;
 }
 .report button{
+  width: 82px;
+  height: 35px;
   border-radius: 5px;
   font-size: 18px;
   font-weight: bold;
-  border: 2px solid #6F4E37;
-  background: darkolivegreen;
-  margin: 20px 20px;
+  border: 2px solid black;
+  background: lightgrey;
+  margin: 20px 15px;
 }
 
 form{
   overflow: hidden;
-  font-family:'Times New Roman', Times, serif;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 80;
   position: absolute;
-  margin-top: 10px;
+  margin-top: 8px;
   margin-left: 0px;
   z-index: -1;
+
 }
 
 /*.report button{
@@ -258,31 +283,62 @@ form{
   width:50%;
   color: red;
 }*/
-.information {
-  position: absolute;
-  font-family:'Courier New', Courier, monospace;
-  top: 800px;
-  left: 20%;
-  float:center;
-  background-color: rgb(177, 177, 160);
-  height: 265px;
-  width: 60%;
-  padding: 0px;
-  z-index: 100;
-  text-align: center;
+.leftSideInfo {
+  margin-top: 40px;
+  color: #2a221c;
+  width: 226px;
+  background-color: lightgray;
+  border-radius: 5px;
+  padding: 10px 10px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  
 }
-.information p{
-  font-size: 22px;
+.rightSideInfo {
+  height: 500px;
+  width: 20%;
+  position: absolute;
+  right: 0%;
+  top: 80px;
+  text-align: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  color: #2a221c;
+}
+.Legend {
+  width: 76%;
+  margin: 10px auto;
+  border: 2px solid #2a221c;
+  background-color: lightgray;
+  border-radius: 5px;
   text-align: left;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-weight:500;
+  color: #2a221c;
+}
+.Legend h2 {
+  text-align: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  color: #2a221c;
+}
+.Links{
+  color:#2a221c;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  font-size: 12px;
 }
 .imgWTitle {
   display: inline-block;
   margin: 10px 20px;
 }
-
+.imgWTitle h5 {
+  font-size: 15px;
+}
+.imgWTitle img {
+  border-radius: 5px;
+  border: 1px solid #2a221c;
+}
 /* Footer */
 footer{
-    background-color:#3b433e;
+    background-color:#2a221c;
     width: 100%;
     position: fixed;
     bottom: 0px;
@@ -295,8 +351,11 @@ footer{
     font-size: 15px;
     text-align: center;
     font-family: 'Courier New', Courier, monospace;
-    
+    color: lightgrey;
     padding-top: 10px;
+}
+.link{
+  color: white;
 }
 /* IFrame for invasive species news */
 .SCEndangeredSpecies {
@@ -341,4 +400,83 @@ footer{
 .autocomplete-active {
   background-color: DodgerBlue !important; 
   color: #ffffff; 
+}
+/*About HTML page***************/
+.about{
+  color:black;
+  position:absolute;
+  top: 75px;
+  left: 485px;
+  text-align: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.about h2{
+  color: #3b433e;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.credits{
+  color:#000000;
+  position: absolute;
+  left: 450px;
+  top: 200px;
+  text-align: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.credits h2{
+  color: #3b433e;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.footer-content1{
+    font-size: 15px;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    color:lightgray;
+}
+
+
+/*Help HTML Page******************/
+.footer-content2{
+    font-size: 15px;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    color: lightgray;
+}
+
+/* Resources HTML Page******************/
+.references{
+  color: #486052;
+}
+.information {
+  position: absolute;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  top: 80px;
+  left: 20%;
+  float:center;
+  height: 265px;
+  width: 60%;
+  padding: 0px;
+  z-index: 100;
+  text-align: center;
+}
+.information p{
+  font-size: 22px;
+  text-align: left;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  
+}
+.title{
+  position: absolute;
+  top: 350px;
+  text-align: center;
+  color:#2a221c;
+}
+.title h6{
+  top: 650px;
+}
+
+.footer-content3{
+    font-size: 15px;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
 }

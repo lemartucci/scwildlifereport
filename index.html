@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>South Carolina Wildlife Report</title>
 
     <link rel="stylesheet" href="css/style.css">
@@ -28,18 +28,12 @@
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
-     <!-- Bootstrap-should i delete this version and use below jsDelivr CDN?
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>  -->
-
      <!-- Bootstrap from jsDelivr: Latest compiled and minified CSS -->
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
       <!-- jsDelivr: Latest compiled and minified JavaScript -->
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 
-      <!-- jsDelivr: Bootstrap Icon Library-->
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
 
     <link rel="stylesheet" href="https://js.arcgis.com/4.24/esri/themes/light/main.css">
@@ -48,30 +42,6 @@
 
 <body>
 <div id="map"></div>
-
-<!-- Query Control Attempt
-  <div id="query" class="leaflet-bar">
-    <label>
-      Report Type:
-      <select id="species">
-        <option value="1=1">Any</option>
-        <option value="1=1">Animals</option>
-        <option value="1=1">Plants</option>
-        <option value="1=1">Insects</option>
-      </select>
-    </label>
-  </div>-->
-
-<!-- Geocoder Control 
-  <div class="geocoder-control leaflet-control">
-    <input class="geocoder-control-input leaflet-bar">
-    <ul class="geocoder-control-suggestions leaflet-bar">
-      <li class="geocoder-control-suggestion geocoder-control-selected">The Selected Result</li>
-      <li class="geocoder-control-suggestion">Another Result</li>
-    </ul>
-  </div>-->
-  
-
 <!-- Navigation Bar -->
   <nav>
     <div class="navbar">
@@ -92,7 +62,7 @@
   <p>Welcome! This citizen science web tool is designed to enable landowners in South Carolina to report sightings of endangered or invasive species on their property with the purpose of providing valuable data to environmental agencies about the presence and spread of these species.
     <br>
     <br>
-    With this tool, users may pan and zoom on the map of South Carolina, click on points that are present on the map to retrieve sighting information, create reports of their own with the option of uploading a photo, and download a CSV containing all reports. 
+    With this tool, users may pan and zoom on the map of South Carolina, click on points that are present on the map to retrieve sighting information, create reports of their own with the option of uploading a photo, and download report data through ArcGIS Online. 
     <br>
     <br>
     Resources regarding species identification, management, and prevention are located under the “Resources” tab and are listed at the bottom of this web page. For additional help in using this tool, navigate to the “Help” tab; to report an issue use the “Report an Issue” link at the bottom of the web page.
@@ -106,36 +76,46 @@
 <!-- Report Form -->
 <div class="reportDiv" id ="reportDiv">
   <button id="makeReportButton"><h5><b>Make a Report </b></h5></button>
+
   <a id="dataLink" href="https://uw-mad.maps.arcgis.com/home/item.html?id=f7d247c2a99d44d6898484fc349c5251" target="_blank">
     <button id="dataButton"><h5><b>Download Data</b></h5></button>
   </a>
+
+  <a id="reportIssueLink" href="https://docs.google.com/forms/d/1oxpPIVA3m9kkSXXSJakI2ofHLVjhrG4IjvL4D6kBz3M/edit" target="_blank">
+    <button id="reportIssueButton"><h5><b>Report an Issue</b></h5></button>
+  </a>
+
   <select id="whereClauseSelect" class="querySelect">
-    <option value="1=1"><h5>Select Query Filter</h5></option>
-    <option value="Type = 'Animal'"><h5>Report Type = 'Animal'</h5></option>
-    <option value="Type = 'Insect'"><h5>Report Type = 'Insect'</h5></option>
-    <option value="Type = 'Plant'"><h5>Report Type = 'Plant'</h5></option>
+    <option value="1=1"><h5>Query Reports</h5></option>
+    <option value="Type = 'Animal'"><h5>Report = 'Animal'</h5></option>
+    <option value="Type = 'Insect'"><h5>Report = 'Insect'</h5></option>
+    <option value="Type = 'Plant'"><h5>Report = 'Plant/Fungi'</h5></option>
+    <option value="Endangered = 'Yes'"><h5>Species = 'Endangered'</h5></option>
+    <option value="Invasive = 'Yes'"><h5>Species = 'Invasive'</h5></option>
   </select>
 
   <form class ="report" id="data" autocomplete="off" method="post" action="#" onsubmit="return postReportFunction(this);" style="display:none">
-      <label for="reportType">Choose a report type: </label>
+      <label for="reportType">Select Report Type: </label>
       <select name="reportType" id="reportType">
         <option value="Animal">Animal</option>
-        <option value="Plant">Plant</option>
+        <option value="Plant">Plant/Fungi</option>
         <option value="Insect">Insect</option>
       </select>
       <span>
-        <label><input id="endangeredCheckbox" type="checkbox" name="Endangered Species" style="margin-bottom:15px"> Endangered Species</label>
+        <label><input id="endangeredCheckbox" type="radio" name="EndangeredOrInvasive" value="Endangered" style="margin-bottom:4px"> Endangered Species</label>
       </span>
       <span>
-        <label><input id="invasiveCheckbox" type="checkbox" name="Invasive Species" style="margin-bottom:15px"> Invasive Species</label>
+        <label><input id="invasiveCheckbox" type="radio" name="EndangeredOrInvasive" value="Invasive" style="margin-bottom:4px"> Invasive Species</label>
       </span>
+      <br>
+      <br>
       <span>
         <label for="Date"><b>Date</b></label>
         <input type="date" name="Date" id="Date" placeholder="Date.."><br><br>
       </span>
       <span>
         <label for="locationDescription"><b>Location Description</b></label>
-        <p id="locationDescription">Click on Map or Search for Address to Set Report Location</p>
+        <p id="locationDescription"><i>Click on Map or Search for Address to Set Report Location</i></p>
       </span>
       <span>
         <label for="species"><b>Species</b></label>
@@ -163,6 +143,22 @@
         <button type="button" class="Submit">Submit</button>
       </span>
   </form>
+
+  <div class ="leftSideInfo">
+    <span>
+      <b>Endangered:</b>
+      <b>USDA definition of Invasive Species:</b>
+            <b>1)</b> non-native (or alien) to the ecosystem under consideration and,
+            <b>2)</b> whose introduction causes or is likely to cause economic or environmental harm or harm to human health.
+        <br>
+        An <strong>endangered species</strong> is one that is seriously at risk of extinction. </p>
+      Report types are 
+        Animals: Birds, Mammals, Reptiles, Amphibians, Fishes
+        Plants/Fungi:
+        Insects/Bugs: 
+    </span>
+  </div>
+
 </div>
 
 <!-- Dialog on Report Submission -->
@@ -171,27 +167,31 @@
   <p id="reportSubmitResponseMsg"></p>
 </div>
 
-<div class="information">
-  <br>
-  <br>
-  <h2><strong>Invasive & Endangered Species of South Carolina</strong></h2>
-  <br> <br>
-  <p> An <strong>invasive species</strong> is one that is introduced to an environment in which it can cuase serious harm to the ecosystem and other species.
-  An <strong>endangered species</strong> is one that is seriously at risk of extinction. </p>
-  <h2><strong>Species Identification</strong></h2>
-  <div class="imgWTitle">
-    <span><h3>Wildlife</h3></span><br>
-    <img src ="img/boar.jpg" alt="wildlife icon"  width=45px/>
+<div class = "rightSideInfo">
+  <div class="Legend">
+    <h2>Legend</h2>
+    <img src ="img/flower2.svg" alt="plants icon"  width=48px/>
+    <span>Plant/Fungi Report</span><br>
+    <img src ="img/butterfly.svg" alt="insect icon"  width=46px/>
+    <span>  Insect Report</span><br>
+    <img src ="img/print.svg" alt="animal icon"  width=48px/>
+    <span>Animal Report</span><br>
+  </div>
+  <div class="Links">
+    <span><h6><b>Click Below Images to Learn More!</b></h6></span>
   </div>
   <div class="imgWTitle">
-    <span><h3>Plants</h3></span><br>
-    <img src ="img/pitcher.JPG" alt="plants icon"  width=45px/>
+    <span><h5><b>Invasive Species</b></h5></span><br>
+    <a href="https://www.invasivespeciesinfo.gov/us/south-carolina" target="_blank">
+      <img src ="img/Tegu.jpg" alt="Tegu Lizard image"  width=190px/>
+    </a>
   </div>
   <div class="imgWTitle">
-    <span><h3>Insects</h3></span><br>
-    <img src ="img/lanternfly.jpg" alt="insects icon"  width=45px/>
+    <span><h5><b>Endangered Species</b></h5></span><br>
+    <a href="https://www.scwf.org/endangered-species" target="_blank">
+      <img src ="img/turtle.jpg" alt="tortoise image"  width=190px height=130px/>
+    </a>
   </div>
-  <h2><strong>Management Resources</strong></h2>
 </div>
 
 <!-- IFrame to endanged species website -->
@@ -202,10 +202,9 @@
 <!-- Footer -->
   <footer>
       <div class= "footer-content">
-          <p>Last Updated August 2022 | Best viewed on desktop browser |</p>
+          <p>Last Updated August 2022 | Best viewed on desktop browser(Google Chrome) | <a class="link" href= "https://docs.google.com/forms/d/1oxpPIVA3m9kkSXXSJakI2ofHLVjhrG4IjvL4D6kBz3M/edit"> Report an Issue</a> </p>
       </div>
   </footer>
-
 </body>
     <script type="text/javascript" src="lib/leaflet/leaflet-src.js"></script>
     <script type="module" src="js/main.js"></script>
