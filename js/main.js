@@ -107,7 +107,7 @@ let InsectIconLarge =  L.icon({
 
   var allMarkers = new Array();
 
-// Adding a hosted feature layer
+// Adding a hosted feature layer AGOL
 var reports = L.esri
   .featureLayer({
       url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/SC_Reports_GEOJSON/FeatureServer/0",
@@ -232,7 +232,7 @@ var reports = L.esri
     }
   });
 
-// Add Geocoding
+// Add Geocoding functionality from ESRI Leaflet
 const searchControl = L.esri.Geocoding.geosearch({
     position: "topright",
     placeholder: "Enter an address or place e.g. 20 Elm St",
@@ -266,7 +266,7 @@ const searchControl = L.esri.Geocoding.geosearch({
     }
   });
 
-  // Add reverse geocoding
+  // Add reverse geocoding as well 
   const layerGroup = L.layerGroup().addTo(map);
 
   map.on("click", function (e) {
@@ -375,22 +375,6 @@ const searchControl = L.esri.Geocoding.geosearch({
       document.querySelector("#reportSubmitResponseMsg").innerHTML = "Please select a location on the map to submit a report";
     }
   }
-
-
-  //UNCOMMENT THIS CODE FOR FINAL
-//Popup will display when user loads the webpage
-/*
-window.addEventListener("load", function(){
-    setTimeout(
-        function open(event){
-            document.querySelector(".popup").style.display = "block"; 
-        }
-    )
-}); 
-document.querySelector("#close").addEventListener("click", function(){
-    document.querySelector(".popup").style.display = "none";
-});
-*/
 // Make Report button
 document.querySelector("#makeReportButton").addEventListener("click", function(){
   if (document.querySelector(".report").style.display == "block") {
@@ -532,22 +516,9 @@ var species_list =
 "Diminutive Clubtail", "Towne's Clubtail",
 "Rusty Patched Bumble Bee",
 
-//determine:
-"Bicknell's Thrush", "Black Rail", "Bluebarred Pygmy Sunfish", "Bog Turtle", 
-"Broad River Spiny Crayfish", "Brown Pelican", "Buff-breasted Sandpiper", "Bunched Arrowhead", 
-"Calico Grouper", "Calvert's Emerald", "Canby's Dropwort", "Carribean Reef Shark", "Devil Fish",
-"Donkey Fish", "Edisto Crayfish", "Distocambarus youngineri","Frosted Flatwoods Salamander", 
-"Golden-Winged Warbler", "Green Salamander", "Gulf Sturgeon", "Hammerhead Shark", "Henslow's Sparrow",
-"Kirtland's Warbler", "Longleaf Pine", "Night Shark", "Painted Bunting", "Persistent Trillium",
-"Pine Barrens Treefrog", "Poey's Grouper", "Quillwort", "Red Porgy", "Red-headed Woodpecker", "Relict Trillium", "Roseate Tern",
-"Rusty Blackbird", "Saltmarsh Sharp-tailed Sparrow", "Smalltooth Sawfish", "Southern Hog-nosed Snake",
-"Spotted Eagle Ray", "Spotted Turtle", "Venus Fly Trap", "Whooping Crane", "Wood Stork",
-"Yellow Lampmussel",
-
 //Invasive Animals:
 "Wild Boar/Swine/Pig","European Starling","House Sparrow","Rock Pigeon","House Finch", 
 "Cattle Egret", "Eurasian Collared Dove","Ring Necked Pheasant","Tegu Lizard",
-
 
 //Invasive Plants: 
 "Bradford Pear/Callery Pear","Tree of Heaven", "Cogongrass","Fig Buttercup","Chinaberry", "Princess Tree", "Chinese Tallow Tree", "Mimosa/Silktree", 
