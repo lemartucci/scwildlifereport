@@ -256,13 +256,14 @@ const searchControl = L.esri.Geocoding.geosearch({
       const lngLatString = `${Math.round(data.results[i].latlng.lng * 100000) / 100000}, ${
         Math.round(data.results[i].latlng.lat * 100000) / 100000
       }`;
-      feat = L.marker(data.results[i].latlng);
+      const marker = L.marker(data.results[i].latlng);
+      feat = L.marker(data.results[i].latlng).toGeoJSON(); // start geojson needed for submission if the user submits from searched location
       locationDescription = `${data.results[i].properties.LongLabel}`;
       console.log(locationDescription);
       document.getElementById("locationDescription").innerHTML = locationDescription;
-      feat.bindPopup(`<b>${lngLatString}</b><p>${data.results[i].properties.LongLabel}</p>`);
-      results.addLayer(feat);
-      feat.openPopup();
+      marker.bindPopup(`<b>${lngLatString}</b><p>${data.results[i].properties.LongLabel}</p>`);
+      results.addLayer(marker);
+      marker.openPopup();
     }
   });
 
