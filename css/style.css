@@ -5,7 +5,7 @@ body {
     margin: 0;
     padding: 0;
     background-color:#b09f90;
-    height:100%;
+    min-height: 180%;
 }
 .navbar img{
   float: left;
@@ -74,6 +74,7 @@ nav{
       z-index: -1;
       border: 4px solid #2a221c;
       border-radius: 15px;
+      margin-bottom: 200px;
 }
 .reportDiv{
   font-family:Verdana, Geneva, Tahoma, sans-serif;
@@ -170,12 +171,7 @@ nav{
   line-height: 25px;
   color: black;
 }
-.infotitle{
- color:#486052;
- font-size: 45px;
- font-weight: bold;
- font-family: 'Courier New', Courier, monospace;
-}
+
 .buttontitle{
  font-size: 20px;
  font-family: 'Courier New', Courier, monospace;
@@ -288,15 +284,17 @@ form{
   color: red;
 }*/
 .leftSideInfo {
-  margin-top: 40px;
+  margin-top: 5px;
   color: #2a221c;
-  width: 226px;
+  width: 236px;
   background-color: lightgray;
   border-radius: 5px;
   padding: 10px 10px;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   font-size: 12px;
-  
+}
+.leftSideInfo p {
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 .rightSideInfo {
   height: 500px;
@@ -366,20 +364,7 @@ footer{
 .link{
   color: white;
 }
-/* IFrame for invasive species news */
-.SCEndangeredSpecies {
-  position: absolute;
-  top: 1300px;
-  left: 20%;
-  margin: 50px 0px;
-}
-.helpInfo {
-  text-align: center;
-  width: 60%;
-  left: 20%;
-  position: relative;
-  top: 150px;
-}
+
 /* Report popup */
 .reportPopup {
   background-color:white;
@@ -424,37 +409,75 @@ footer{
   font-family: 'Courier New', Courier, monospace;
   color:lightgray;
 }
+.helpInfo {
+  text-align: left;
+  width: 60%;
+  left: 20%;
+  position: relative;
+  top: 120px;
+}
+.helpInfo p{
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  color: #2a221c;
+  font-size: 18px;
+}
+.question{
+  color:#2a221c;
+  font-size: 20px;
+  text-align: center;
+}
+.infotitle{
+  color:#3b433e;
+  font-size: 30px;
+  font-weight: bold;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+ }
 
 /*About HTML page***************/
 .about{
   color:#2a221c;
   position: absolute;
-  width: 60%;
-  left: 20%;
-  top: 120px;
+  width: 80%;
+  left: 10%;
+  top: 70px;
   right: 60%;
-  text-align: center;
+  text-align: left;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
-.about h2{
+.description{
+  font-size: 17px;
+  color:#2a221c;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  line-height: 1.4;
+}
+.about h3{
   color: #3b433e;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   text-align: center;
   right: 45%;
 }
 .credits{
-  color:#000000;
+  color:#2a221c;
   position: absolute;
   width: 60%;
   left: 20%;
-  top: 350px;
+  top: 419px;
   text-align: center;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
-.credits h2{
+.credits h3{
   color: #3b433e;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
+.credits h4{
+  color:#2a221c;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.credits p{
+  font-size: 13px;
+}
+
 .footer-content1{
     font-size: 15px;
     text-align: center;
@@ -488,27 +511,19 @@ footer{
 .information h4{
   text-align: center;
   font-size: 26px;
-  color:#2a221c;
+  color:#3b433e;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   margin-top: 40px;
   margin-bottom: 0px;
 }
 .information h5{
   color:#2a221c;
-
 }
-
-.title{
-  position: absolute;
-  top: 350px;
-  text-align: center;
-  color:#2a221c;
+.link2{
+  color: #2a221c;
+  font-weight: 200;
+  line-height: 1.5;
 }
-.title h6{
-  top: 850px;
-  position: absolute;
-}
-
 .footer-content3{
     font-size: 15px;
     text-align: center;
